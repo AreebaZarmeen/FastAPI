@@ -2,7 +2,7 @@
 nixPkgs = ["python311", "mesa", "mesa_glu", "xorg.libX11", "xorg.libXext", "xorg.libXrender"]
 
 [phases.build]
-cmds = ["pip install --no-cache-dir -r requirements.txt"]
+cmds = ["python3 -m venv /opt/venv", "source /opt/venv/bin/activate", "pip install --no-cache-dir -r requirements.txt"]
 
 [start]
 cmd = "uvicorn app:app --host 0.0.0.0 --port $PORT"
