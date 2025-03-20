@@ -5,6 +5,6 @@ numpy
 torch
 torchvision
 gunicorn
-opencv-python-headless
+opencv-python
 ultralytics
 
