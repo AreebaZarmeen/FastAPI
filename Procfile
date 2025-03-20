@@ -1,1 +1,2 @@
-web: waitress-serve --listen=0.0.0.0:10000 app:app
+gunicorn app:app --bind 0.0.0.0:8080
+
