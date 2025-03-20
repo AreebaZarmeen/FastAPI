@@ -4,3 +4,6 @@ numpy
 torch
 torchvision
 gunicorn
+opencv-python-headless
+ultralytics
+
