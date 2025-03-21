@@ -1,8 +1,8 @@
 import os
 from flask import Flask, request, jsonify
-import cv2
 import numpy as np
 from ultralytics import YOLO
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -38,12 +38,9 @@ def predict():
     if "image" not in request.files:
         return jsonify({"error": "No image uploaded"}), 400
 
-    file = request.files["image"].read()
-    np_img = np.frombuffer(file, np.uint8)
-    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
-
-    if img is None:
-        return jsonify({"error": "Invalid image format"}), 400
+    file = request.files["image"]
+    img = Image.open(file).convert("RGB")  # Convert image to RGB mode
+    img = np.array(img)  # Convert to NumPy array
 
     if pretrained_model is None and custom_model is None:
         return jsonify({"error": "YOLO models not loaded"}), 500
@@ -71,5 +68,5 @@ def predict():
     return jsonify({"predictions": predictions})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Use Railway's PORT or default to 8080
+    port = int(os.environ.get("PORT", 8080))  # Use Railway's PORT or default to 8080
     app.run(host="0.0.0.0", port=port, debug=False)
